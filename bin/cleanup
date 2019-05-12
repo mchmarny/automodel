@@ -1,0 +1,27 @@
+#!/bin/bash
+
+gcloud iot devices delete automodel-device-1 \
+    --project=${GCP_PROJECT} \
+    --registry=automodel-reg \
+    --region=us-central1 \
+    --quiet
+
+gcloud iot registries delete automodel-reg \
+    --project=${GCP_PROJECT} \
+    --region=us-central1 \
+    --quiet
+
+gcloud beta pubsub topics delete automodel-event --quiet
+gcloud beta pubsub topics delete automodel-event-state --quiet
+
+bq rm -f automodel.event
+bq rm -f automodel
+
+ACTIVE_JOB_ID=$(gcloud dataflow jobs list --status=active \
+    --filter="name:automodel-bq-pump"  --format='value(JOB_ID)')
+if [ -z "$ACTIVE_JOB_ID" ]
+then
+    echo "No active Dataflow jobs"
+else
+    gcloud dataflow jobs cancel ${ACTIVE_JOB_ID} --region=us-central1 --quiet
+fi

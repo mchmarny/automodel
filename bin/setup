@@ -1,0 +1,50 @@
+#!/bin/bash
+
+echo "Setting up PubSub"
+gcloud pubsub topics create automodel-event
+gcloud pubsub topics create automodel-event-state
+
+echo "Setting up BigQuery"
+bq mk automodel
+bq query --use_legacy_sql=false "
+CREATE OR REPLACE TABLE automodel.event (
+    source_id STRING NOT NULL,
+    event_id STRING NOT NULL,
+    event_ts TIMESTAMP NOT NULL,
+    label STRING NOT NULL,
+    memFree FLOAT64 NOT NULL,
+    cpuFree FLOAT64 NOT NULL,
+    loadAvg1 FLOAT64 NOT NULL,
+    loadAvg5 FLOAT64 NOT NULL,
+    loadAvg15 FLOAT64 NOT NULL,
+    randomValue FLOAT64 NOT NULL
+)"
+
+echo "Setting up Dataflow"
+gcloud dataflow jobs run automodel-bq-pump \
+    --gcs-location=gs://dataflow-templates/latest/PubSub_to_BigQuery \
+    --region=us-central1 --parameters \
+inputTopic=projects/${GCP_PROJECT}/topics/automodel-event,\
+outputTableSpec=${GCP_PROJECT}:automodel.event
+
+echo "Setting up IOT Core"
+openssl req -x509 -nodes -newkey rsa:2048 \
+        -keyout device1-private.pem \
+        -out device1-public.pem \
+        -days 365 \
+        -subj "/CN=demo"
+curl https://pki.google.com/roots.pem > ./root-ca.pem
+
+gcloud iot registries create automodel-reg \
+    --project=${GCP_PROJECT} \
+    --region=us-central1 \
+    --log-level=debug \
+    --event-notification-config=topic=automodel-event \
+    --state-pubsub-topic=automodel-event-state
+
+gcloud iot devices create automodel-device-1 \
+    --project=${GCP_PROJECT} \
+    --region=us-central1 \
+    --registry=automodel-reg \
+    --log-level=debug \
+    --public-key path=device1-public.pem,type=rsa-x509-pem
