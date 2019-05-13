@@ -12,12 +12,12 @@ CREATE OR REPLACE TABLE automodel.event (
     event_id STRING NOT NULL,
     event_ts TIMESTAMP NOT NULL,
     label STRING NOT NULL,
-    memFree FLOAT64 NOT NULL,
-    cpuFree FLOAT64 NOT NULL,
-    loadAvg1 FLOAT64 NOT NULL,
-    loadAvg5 FLOAT64 NOT NULL,
-    loadAvg15 FLOAT64 NOT NULL,
-    randomValue FLOAT64 NOT NULL
+    mem_used FLOAT64 NOT NULL,
+    cpu_used FLOAT64 NOT NULL,
+    load_1 FLOAT64 NOT NULL,
+    load_5 FLOAT64 NOT NULL,
+    load_15 FLOAT64 NOT NULL,
+    random_metric FLOAT64 NOT NULL
 )"
 
 echo "Setting up Dataflow"
