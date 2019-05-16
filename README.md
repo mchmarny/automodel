@@ -43,6 +43,7 @@ To stream mocked events to the new IOT Core device run the `eventmaker` utility.
 | `range`  | Range of the random data points that will be generated for the above defined metric (e.g. `0.01-2.00` which means floats between `0.01` and `2.00`)                                                                              |
 | `freq`   | Frequency in which these events will be sent to IoT Core (e.g. `2s` which means every 2 sec.)                                                                                                                                    |
 
+To execute `eventmaker` run the following command:
 
 ```shell
 bin/eventmaker --project=${GCP_PROJECT} --region=us-central1 --registry=automodel-reg \
