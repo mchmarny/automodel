@@ -174,7 +174,6 @@ bin/eventmaker --project=${GCP_PROJECT} --region=us-central1 --registry=automode
 		--src=automodel-client --freq=2s --metric=utilization --range=0.01-100.00
 ```
 
-
 ```sql
 #standardSQL
 SELECT
