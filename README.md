@@ -36,12 +36,12 @@ Created device [automodel-device-1].
 
 To stream mocked events to the new IOT Core device run the `eventmaker` utility. Besides references to the IOT Core resources we created in setup, there are a few demo-specific parameters worth explaining:
 
-| arg        | description                                                                                                                                                                                                                      |
-| ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--src`    | Unique name of the device from which you are sending events. This is used to identify the specific sender of events in case you are running multiple clients. For this demo we will use something simple like `automodel-client` |
-| `--metric` | Name of the metric to generate that will be used as `label` in the sent event (e.g. `utilization`)                                                                                                                               |
-| `--range`  | Range of the random data points that will be generated for the above defined metric (e.g. `0.01-2.00` which means floats between `0.01` and `2.00`)                                                                              |
-| `--freq`   | Frequency in which these events will be sent to IoT Core (e.g. `2s` which means every 2 sec.)                                                                                                                                    |
+| arg      | description                                                                                                                                                                                                                      |
+| -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src`    | Unique name of the device from which you are sending events. This is used to identify the specific sender of events in case you are running multiple clients. For this demo we will use something simple like `automodel-client` |
+| `metric` | Name of the metric to generate that will be used as `label` in the sent event (e.g. `utilization`)                                                                                                                               |
+| `range`  | Range of the random data points that will be generated for the above defined metric (e.g. `0.01-2.00` which means floats between `0.01` and `2.00`)                                                                              |
+| `freq`   | Frequency in which these events will be sent to IoT Core (e.g. `2s` which means every 2 sec.)                                                                                                                                    |
 
 
 ```shell
