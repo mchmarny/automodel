@@ -74,6 +74,21 @@ The JSON payload in each one of these events looks something like this:
 }
 ```
 
+And the BigQuery schema looks like this 
+
+| Field name    | Type      | Mode     |
+|---------------|-----------|----------|
+| source_id     | STRING    | REQUIRED |
+| event_id      | STRING    | REQUIRED |
+| event_ts      | TIMESTAMP | REQUIRED |
+| label         | STRING    | REQUIRED |
+| mem_used      | FLOAT     | REQUIRED |
+| cpu_used      | FLOAT     | REQUIRED |
+| load_1        | FLOAT     | REQUIRED |
+| load_5        | FLOAT     | REQUIRED |
+| load_15       | FLOAT     | REQUIRED |
+| random_metric | FLOAT     | REQUIRED |	
+
 ## Model
 
 ### Create Model
